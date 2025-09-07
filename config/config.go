@@ -15,10 +15,10 @@ type AppConfig struct {
 	AppEnv                string   `json:"appEnv"`
 	SignatureKey          string   `json:"signatureKey"`
 	Database              Database `json:"database"`
-	RateLimiterMaxRequest float64  `json:rateLimiterMaxRequest`
-	RateLimiterSecond     int      `json:rateLimiterSecond`
-	JwtSecretKey          string   `json:jwtSecretKey`
-	JwtExpirationTime     int      `json:jwtExpirationTime`
+	RateLimiterMaxRequest float64  `json:"rateLimiterMaxRequest"`
+	RateLimiterSecond     int      `json:"rateLimiterSecond"`
+	JwtSecretKey          string   `json:"jwtSecretKey"`
+	JwtExpirationTime     int      `json:"jwtExpirationTime"`
 }
 
 type Database struct {
@@ -27,10 +27,10 @@ type Database struct {
 	Name                  string `json:"name"`
 	Username              string `json:"username"`
 	Password              string `json:"password"`
-	MaxOpenConnections    int    `json:"maxOpenConnections`
-	MaxLifeTimeConnection int    `json:maxLifeTimeConnection`
-	MaxIdleConnections    int    `json:"maxIdleConnections`
-	MaxIdleTime           int    `json:"maxIdleTime`
+	MaxOpenConnections    int    `json:"maxOpenConnections"`
+	MaxLifeTimeConnection int    `json:"maxLifeTimeConnection"`
+	MaxIdleConnections    int    `json:"maxIdleConnections"`
+	MaxIdleTime           int    `json:"maxIdleTime"`
 }
 
 func Init() { //panggil config.json
