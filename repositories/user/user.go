@@ -54,7 +54,7 @@ func (r *UserRepository) Update(ctx context.Context, req *dto.UpdateRequest, uui
 		Email:       req.Email,
 	}
 
-	if req.Password != nil{
+	if req.Password != nil {
 		user.Password = *req.Password
 	}
 
