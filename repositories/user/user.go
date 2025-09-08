@@ -50,9 +50,12 @@ func (r *UserRepository) Update(ctx context.Context, req *dto.UpdateRequest, uui
 	user := models.User{
 		Name:        req.Name,
 		Username:    req.Username,
-		Password:    req.Password,
 		PhoneNumber: req.PhoneNumber,
 		Email:       req.Email,
+	}
+
+	if req.Password != nil{
+		user.Password = *req.Password
 	}
 
 	er := r.db.WithContext(ctx).
