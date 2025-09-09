@@ -26,12 +26,18 @@ type ParamHTTPResp struct {
 
 func HttpResponse(param ParamHTTPResp) {
 	if param.Err == nil {
+		var token string
+		if param.Token != nil {
+			token = *param.Token
+		}
+
 		param.Gin.JSON(param.Code, Response{
 			Status:  constants.Success,
 			Message: http.StatusText(http.StatusOK),
 			Data:    param.Data,
-			Token:   *param.Token,
+			Token:   token,
 		})
+		return
 	}
 
 	message := errConstant.ErrInternalServerError.Error()

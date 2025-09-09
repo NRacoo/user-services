@@ -7,21 +7,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UserRoute struct{
+type UserRoute struct {
 	controller controllers.IControllerRegistry
 
 	group *gin.RouterGroup
 }
 
-type IUserRoute interface{
+type IUserRoute interface {
 	Run()
 }
 
-func NewUserRoute(controller controllers.IControllerRegistry, group *gin.RouterGroup) IUserRoute{
+func NewUserRoute(controller controllers.IControllerRegistry, group *gin.RouterGroup) IUserRoute {
 	return &UserRoute{controller: controller, group: group}
 }
 
-func (u *UserRoute) Run(){
+func (u *UserRoute) Run() {
 	group := u.group.Group("/auth")
 
 	group.GET("/user", middlewares.Authenticate(), u.controller.GetUserController().GetUserLogin)

@@ -54,8 +54,7 @@ func SetEnvFromConsulKV(v *viper.Viper) error {
 			val = strconv.Itoa(int(valof.Float()))
 		case reflect.Float64:
 			val = strconv.FormatBool(valof.Bool())
-		default:
-			panic("unsopported type")
+
 		}
 		err = os.Setenv(k, val)
 		if err != nil {

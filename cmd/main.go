@@ -23,19 +23,19 @@ import (
 )
 
 var command = cobra.Command{
-	Use: "serve",
+	Use:   "serve",
 	Short: "start the server",
-	Run: func(c *cobra.Command, args []string){
+	Run: func(c *cobra.Command, args []string) {
 		_ = godotenv.Load()
 		config.Init()
 
-		db, err:= config.InitDatabase()
-		if err != nil{
+		db, err := config.InitDatabase()
+		if err != nil {
 			panic(err)
 		}
 
 		loc, err := time.LoadLocation("Asia/Jakarta")
-		if err != nil{
+		if err != nil {
 			panic(err)
 		}
 		time.Local = loc
@@ -44,30 +44,30 @@ var command = cobra.Command{
 			&models.Role{},
 			&models.User{},
 		)
-		if err != nil{
+		if err != nil {
 			panic(err)
 		}
 
 		seeders.NewSeederRegistry(db).Run()
 		repository := repositories.NewRepositoryRegister(db)
-		service:= services.NewServiceRegistry(repository)
+		service := services.NewServiceRegistry(repository)
 		controller := controllers.NewControllerRegistry(service)
 
 		router := gin.Default()
 		router.Use(middlewares.HandlePanic())
-		router.NoRoute(func(c *gin.Context){
+		router.NoRoute(func(c *gin.Context) {
 			c.JSON(http.StatusNotFound, response.Response{
-				Status: constants.Error,
+				Status:  constants.Error,
 				Message: fmt.Sprintf("Path %s", http.StatusText(http.StatusNotFound)),
 			})
 		})
-		router.GET("/", func(c *gin.Context){
+		router.GET("/", func(c *gin.Context) {
 			c.JSON(http.StatusOK, response.Response{
-				Status: constants.Success,
+				Status:  constants.Success,
 				Message: "Welcome di User-Service",
 			})
 		})
-		router.Use(func(c *gin.Context){
+		router.Use(func(c *gin.Context) {
 			c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 			c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 			c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, x-service-name, x-api-key, x-request-at")
@@ -82,18 +82,18 @@ var command = cobra.Command{
 		router.Use(middlewares.RateLimiter(lmt))
 
 		group := router.Group("/api/v1")
-		route:= routes.NewRouteRegistry(controller, group)
+		route := routes.NewRouteRegistry(controller, group)
 		route.Serve()
 
-		port := fmt.Sprintf("%d", config.Config.Port)
+		port := fmt.Sprintf(":%d", config.Config.Port)
 		router.Run(port)
 
 	},
 }
 
-func Run(){
-	err:= command.Execute()
-	if err != nil{
+func Run() {
+	err := command.Execute()
+	if err != nil {
 		panic(err)
 	}
 }

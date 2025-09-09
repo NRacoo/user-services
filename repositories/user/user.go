@@ -70,16 +70,15 @@ func (r *UserRepository) Update(ctx context.Context, req *dto.UpdateRequest, uui
 
 func (r *UserRepository) FindByUsername(ctx context.Context, username string) (*models.User, error) {
 	var user models.User
-
 	err := r.db.WithContext(ctx).
 		Preload("Role").
 		Where("username = ?", username).
 		First(&user).Error
-
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errWrap.WrapError(errConst.ErrUserNotFound)
+			return nil, errConst.ErrUserNotFound
 		}
+		return nil, errWrap.WrapError(errConst.ErrSQLError)
 	}
 	return &user, nil
 }
@@ -91,11 +90,11 @@ func (r *UserRepository) FindByEmail(ctx context.Context, email string) (*models
 		Preload("Role").
 		Where("email = ?", email).
 		First(&user).Error
-
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errWrap.WrapError(errConst.ErrUserNotFound)
+			return nil, errConst.ErrUserNotFound
 		}
+		return nil, errWrap.WrapError(errConst.ErrSQLError)
 	}
 	return &user, nil
 }

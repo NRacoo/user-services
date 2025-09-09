@@ -7,23 +7,23 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Registry struct{
+type Registry struct {
 	controller controllers.IControllerRegistry
-	group *gin.RouterGroup
+	group      *gin.RouterGroup
 }
 
-type IRouterRegistry interface{
+type IRouterRegistry interface {
 	Serve()
 }
 
-func NewRouteRegistry(controller controllers.IControllerRegistry, group *gin.RouterGroup) IRouterRegistry{
+func NewRouteRegistry(controller controllers.IControllerRegistry, group *gin.RouterGroup) IRouterRegistry {
 	return &Registry{controller: controller, group: group}
 }
 
-func (r *Registry) Serve(){
+func (r *Registry) Serve() {
 	r.userRoute().Run()
 }
 
-func (r *Registry) userRoute() routes.IUserRoute{
+func (r *Registry) userRoute() routes.IUserRoute {
 	return routes.NewUserRoute(r.controller, r.group)
 }

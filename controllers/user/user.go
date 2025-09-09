@@ -116,7 +116,7 @@ func (u *UserController) Register(ctx *gin.Context) {
 
 	response.HttpResponse(response.ParamHTTPResp{
 		Code: http.StatusOK,
-		Data: user,
+		Data: user.User,
 		Gin:  ctx,
 	})
 }
